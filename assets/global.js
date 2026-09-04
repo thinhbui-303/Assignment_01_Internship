@@ -3,6 +3,12 @@
 
   var page = document.body.getAttribute("data-page") || "";
 
+  
+  var scriptTag = document.querySelector('script[src*="global.js"]');
+  var srcAttr = scriptTag.getAttribute('src');
+  var basePath = srcAttr.split('assets/global.js')[0];
+  var pagePath = (basePath === '../' || basePath === '..\\') ? '' : 'pages/';
+
   var headerHTML =
     '\
     <div class="top-banner" role="banner">\
@@ -21,12 +27,12 @@
     </div>\
     <header class="header" role="banner">\
         <div class="container">\
-            <a href="index.html" class="logo" aria-label="Exclusive Home">Exclusive</a>\
+            <a href="' + basePath + 'index.html" class="logo" aria-label="Exclusive Home">Exclusive</a>\
             <nav class="nav-links" aria-label="Main navigation">\
-                <a href="index.html" data-nav="home">Home</a>\
-                <a href="contact.html" data-nav="contact">Contact</a>\
-                <a href="about.html" data-nav="about">About</a>\
-                <a href="signup.html" data-nav="signup">Sign Up</a>\
+                <a href="' + basePath + 'index.html" data-nav="home">Home</a>\
+                <a href="' + pagePath + 'contact.html" data-nav="contact">Contact</a>\
+                <a href="' + pagePath + 'about.html" data-nav="about">About</a>\
+                <a href="' + pagePath + 'signup.html" data-nav="signup">Sign Up</a>\
             </nav>\
             <div class="header-right">\
                 <div class="search-box" role="search">\
@@ -35,12 +41,12 @@
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>\
                 </div>\
                 <div class="header-icons">\
-                    <a href="wishlist.html" class="icon-badge-wrap" aria-label="Wishlist"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="badge" id="wishlist-badge" aria-hidden="true">0</span></a>\
-                    <a href="cart.html" class="icon-badge-wrap" aria-label="Shopping cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span class="badge" id="cart-badge" aria-hidden="true">0</span></a>\
+                    <a href="' + pagePath + 'wishlist.html" class="icon-badge-wrap" aria-label="Wishlist"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="badge" id="wishlist-badge" aria-hidden="true">0</span></a>\
+                    <a href="' + pagePath + 'cart.html" class="icon-badge-wrap" aria-label="Shopping cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span class="badge" id="cart-badge" aria-hidden="true">0</span></a>\
                     <div class="user-dropdown-wrap">\
-                        <a href="account.html" aria-label="My Account"><i class="fa-regular fa-user" aria-hidden="true"></i></a>\
+                        <a href="' + pagePath + 'account.html" aria-label="My Account"><i class="fa-regular fa-user" aria-hidden="true"></i></a>\
                         <div class="user-dropdown">\
-                            <a href="account.html"><i class="fa-regular fa-user" aria-hidden="true"></i> Manage My Account</a>\
+                            <a href="' + pagePath + 'account.html"><i class="fa-regular fa-user" aria-hidden="true"></i> Manage My Account</a>\
                             <a href="#"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> My Order</a>\
                             <a href="#"><i class="fa-regular fa-circle-xmark" aria-hidden="true"></i> My Cancellations</a>\
                             <a href="#"><i class="fa-regular fa-star" aria-hidden="true"></i> My Reviews</a>\
@@ -75,11 +81,11 @@
             <div class="footer-col">\
                 <h3>Account</h3>\
                 <ul>\
-                    <li><a href="account.html">My Account</a></li>\
-                    <li><a href="login.html">Login / Register</a></li>\
-                    <li><a href="cart.html">Cart</a></li>\
-                    <li><a href="wishlist.html">Wishlist</a></li>\
-                    <li><a href="index.html">Shop</a></li>\
+                    <li><a href="' + pagePath + 'account.html">My Account</a></li>\
+                    <li><a href="' + pagePath + 'login.html">Login / Register</a></li>\
+                    <li><a href="' + pagePath + 'cart.html">Cart</a></li>\
+                    <li><a href="' + pagePath + 'wishlist.html">Wishlist</a></li>\
+                    <li><a href="' + basePath + 'index.html">Shop</a></li>\
                 </ul>\
             </div>\
             <div class="footer-col">\
@@ -88,17 +94,17 @@
                     <li><a href="#">Privacy Policy</a></li>\
                     <li><a href="#">Terms Of Use</a></li>\
                     <li><a href="#">FAQ</a></li>\
-                    <li><a href="contact.html">Contact</a></li>\
+                    <li><a href="' + pagePath + 'contact.html">Contact</a></li>\
                 </ul>\
             </div>\
             <div class="footer-col">\
                 <h3>Download App</h3>\
                 <p class="footer-download-text">Save $3 with App New User Only</p>\
                 <div class="app-links">\
-                    <img src="../images/Qrcode 1.png" alt="QR Code to download app" style="background:white; padding:2px;" loading="lazy">\
+                    <img src="' + basePath + 'images/Qrcode 1.png" alt="QR Code to download app" style="background:white; padding:2px;" loading="lazy">\
                     <div class="app-stores">\
-                        <img src="../images/png-transparent-google-play-store-logo-google-play-app-store-android-wallets-text-label-logo.png" alt="Get it on Google Play" style="background:black; border:1px solid white;" loading="lazy">\
-                        <img src="../images/download-appstore.png" alt="Download on the App Store" style="background:black; border:1px solid white;" loading="lazy">\
+                        <img src="' + basePath + 'images/png-transparent-google-play-store-logo-google-play-app-store-android-wallets-text-label-logo.png" alt="Get it on Google Play" style="background:black; border:1px solid white;" loading="lazy">\
+                        <img src="' + basePath + 'images/download-appstore.png" alt="Download on the App Store" style="background:black; border:1px solid white;" loading="lazy">\
                     </div>\
                 </div>\
                 <div class="social-links" aria-label="Social media links">\
