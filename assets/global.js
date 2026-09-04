@@ -209,14 +209,15 @@
               var title = titleEl.innerText.trim();
               var priceText = priceEl.innerText.trim().replace('$', '');
               var price = parseFloat(priceText);
-              var imgSrc = imgEl.getAttribute('src');
+              var imgSrcRaw = imgEl.getAttribute('src');
+              var cleanImgSrc = imgSrcRaw.replace(/^(\.\.\/|\.\/)/, '');
 
               var cart = getCart();
               var existingItem = cart.find(function(item) { return item.title === title; });
               if (existingItem) {
                   existingItem.quantity += 1;
               } else {
-                  cart.push({ title: title, price: price, image: imgSrc, quantity: 1 });
+                  cart.push({ title: title, price: price, image: cleanImgSrc, quantity: 1 });
               }
               saveCart(cart);
               updateBadges();
@@ -239,7 +240,8 @@
               var title = titleEl.innerText.trim();
               var priceText = priceEl.innerText.trim().replace('$', '');
               var price = parseFloat(priceText);
-              var imgSrc = imgEl.getAttribute('src');
+              var imgSrcRaw = imgEl.getAttribute('src');
+              var cleanImgSrc = imgSrcRaw.replace(/^(\.\.\/|\.\/)/, '');
 
               var wishlist = getWishlist();
               var existingIndex = wishlist.findIndex(function(item) { return item.title === title; });
@@ -250,7 +252,7 @@
                   btn.classList.add('fa-regular');
                   btn.style.color = '';
               } else {
-                  wishlist.push({ title: title, price: price, image: imgSrc });
+                  wishlist.push({ title: title, price: price, image: cleanImgSrc });
                   btn.classList.remove('fa-regular');
                   btn.classList.add('fa-solid');
                   btn.style.color = 'var(--primary-color)';

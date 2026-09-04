@@ -22,7 +22,7 @@
               html += '    <div class="cart-product">';
               html += '        <div class="product-img-wrap">';
               html += '            <i class="fa-solid fa-circle-xmark remove-btn" aria-hidden="true"></i>';
-              html += '            <img src="' + item.image + '" alt="' + item.title + '">';
+              html += '            <img src="../' + item.image + '" alt="' + item.title + '">';
               html += '        </div>';
               html += '        <span>' + item.title + '</span>';
               html += '    </div>';

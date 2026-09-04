@@ -20,7 +20,7 @@
               
               html += '<div class="order-item">';
               html += '    <div class="order-product">';
-              html += '        <img src="' + item.image + '" alt="' + item.title + '">';
+              html += '        <img src="../' + item.image + '" alt="' + item.title + '">';
               html += '        <span>' + item.title + '</span>';
               html += '    </div>';
               html += '    <span>$' + itemTotal + '</span>';
