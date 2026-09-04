@@ -241,6 +241,12 @@
   padding: 10px;
   font-weight: 500;
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.product-image-wrap:hover .add-to-cart-btn {
+  opacity: 1;
 }
 
 .product-title {

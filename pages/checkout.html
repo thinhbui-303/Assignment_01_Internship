@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/checkout.css">
 </head>
-<body data-page="cart">
+<body data-page="checkout">
 
     <div id="site-header"></div>
 
@@ -64,25 +64,12 @@
 
             <!-- ORDER SUMMARY -->
             <div class="order-summary" aria-label="Order summary">
-                <div class="order-item">
-                    <div class="order-product">
-                        <img src="../images/g27cq4-500x500 1.png" alt="LCD Monitor" loading="lazy">
-                        <span>LCD Monitor</span>
-                    </div>
-                    <span>$650</span>
-                </div>
-                <div class="order-item">
-                    <div class="order-product">
-                        <img src="../images/havithvg92.png" alt="H1 Gamepad" loading="lazy">
-                        <span>H1 Gamepad</span>
-                    </div>
-                    <span>$1100</span>
-                </div>
+                <div id="checkout-items-container"></div>
 
                 <div class="order-totals">
                     <div class="total-row">
                         <span>Subtotal:</span>
-                        <span>$1750</span>
+                        <span id="checkout-subtotal-val">$0</span>
                     </div>
                     <div class="total-row">
                         <span>Shipping:</span>
@@ -90,7 +77,7 @@
                     </div>
                     <div class="total-row total-final">
                         <span>Total:</span>
-                        <span>$1750</span>
+                        <span id="checkout-total-val">$0</span>
                     </div>
                 </div>
 
