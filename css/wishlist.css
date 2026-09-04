@@ -114,12 +114,6 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.product-img:hover .add-to-cart-btn {
-  opacity: 1;
 }
 
 .product-info {

@@ -176,6 +176,7 @@
   padding: 10px 48px;
   height: 44px;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .wishlist-btn {
