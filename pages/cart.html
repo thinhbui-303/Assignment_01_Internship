@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,39 +30,8 @@
                 <div>Subtotal</div>
             </div>
 
-            <!-- Cart Item 1 -->
-            <div class="cart-item">
-                <div class="cart-product">
-                    <div class="product-img-wrap">
-                        <i class="fa-solid fa-circle-xmark remove-btn" aria-hidden="true"></i>
-                        <img src="../images/g27cq4-500x500 1.png" alt="LCD Monitor">
-                    </div>
-                    <span>LCD Monitor</span>
-                </div>
-                <div class="cart-price">$650</div>
-                <div class="cart-quantity">
-                    <label for="qty-monitor" class="sr-only">Quantity for LCD Monitor</label>
-                    <input type="number" id="qty-monitor" value="1" min="1">
-                </div>
-                <div class="cart-subtotal">$650</div>
-            </div>
-
-            <!-- Cart Item 2 -->
-            <div class="cart-item">
-                <div class="cart-product">
-                    <div class="product-img-wrap">
-                        <i class="fa-solid fa-circle-xmark remove-btn" aria-hidden="true"></i>
-                        <img src="../images/havithvg92.png" alt="Gamepad">
-                    </div>
-                    <span>H1 Gamepad</span>
-                </div>
-                <div class="cart-price">$550</div>
-                <div class="cart-quantity">
-                    <label for="qty-gamepad" class="sr-only">Quantity for H1 Gamepad</label>
-                    <input type="number" id="qty-gamepad" value="2" min="1">
-                </div>
-                <div class="cart-subtotal">$1100</div>
-            </div>
+            <!-- Dynamic Cart Items injected via JS -->
+            <div id="cart-items-container"></div>
         </div>
 
         <!-- CART ACTIONS -->
@@ -83,7 +52,7 @@
                 <h3>Cart Total</h3>
                 <div class="total-row">
                     <span>Subtotal:</span>
-                    <span>$1750</span>
+                    <span id="cart-subtotal-val">$0</span>
                 </div>
                 <div class="total-row">
                     <span>Shipping:</span>
@@ -91,7 +60,7 @@
                 </div>
                 <div class="total-row total-final">
                     <span>Total:</span>
-                    <span>$1750</span>
+                    <span id="cart-total-val">$0</span>
                 </div>
                 <div class="text-center mt-24">
                     <a href="checkout.html" class="btn-primary" style="display: inline-block; text-decoration: none;">Proceed to checkout</a>

@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   "use strict";
 
   var page = document.body.getAttribute("data-page") || "";
@@ -35,8 +35,8 @@
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>\
                 </div>\
                 <div class="header-icons">\
-                    <a href="wishlist.html" class="icon-badge-wrap" aria-label="Wishlist (4 items)"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="badge" aria-hidden="true">4</span></a>\
-                    <a href="cart.html" class="icon-badge-wrap" aria-label="Shopping cart (2 items)"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span class="badge" aria-hidden="true">2</span></a>\
+                    <a href="wishlist.html" class="icon-badge-wrap" aria-label="Wishlist"><i class="fa-regular fa-heart" aria-hidden="true"></i><span class="badge" id="wishlist-badge" aria-hidden="true">0</span></a>\
+                    <a href="cart.html" class="icon-badge-wrap" aria-label="Shopping cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span class="badge" id="cart-badge" aria-hidden="true">0</span></a>\
                     <div class="user-dropdown-wrap">\
                         <a href="account.html" aria-label="My Account"><i class="fa-regular fa-user" aria-hidden="true"></i></a>\
                         <div class="user-dropdown">\
@@ -44,7 +44,7 @@
                             <a href="#"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> My Order</a>\
                             <a href="#"><i class="fa-regular fa-circle-xmark" aria-hidden="true"></i> My Cancellations</a>\
                             <a href="#"><i class="fa-regular fa-star" aria-hidden="true"></i> My Reviews</a>\
-                            <a href="#"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Logout</a>\
+                            <a href="#" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Logout</a>\
                         </div>\
                     </div>\
                 </div>\
@@ -130,5 +130,222 @@
   if (footerTarget) {
     footerTarget.innerHTML = footerHTML;
   }
+
+  // --- MOCK INTERACTIVITY LOGIC ---
+
+  // 1. STATE MANAGEMENT
+  function getCart() {
+    return JSON.parse(localStorage.getItem('cart')) || [];
+  }
+  function getWishlist() {
+    return JSON.parse(localStorage.getItem('wishlist')) || [];
+  }
+  function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+  function saveWishlist(wishlist) {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  }
+
+  // 2. HEADER UPDATES
+  function updateBadges() {
+    var cartBadge = document.getElementById('cart-badge');
+    var wishlistBadge = document.getElementById('wishlist-badge');
+    if (cartBadge) {
+        var cart = getCart();
+        var totalQty = cart.reduce(function(sum, item) { return sum + item.quantity; }, 0);
+        cartBadge.innerText = totalQty;
+        cartBadge.style.display = totalQty > 0 ? 'flex' : 'none';
+    }
+    if (wishlistBadge) {
+        var wishlist = getWishlist();
+        wishlistBadge.innerText = wishlist.length;
+        wishlistBadge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+    }
+    
+    // Auth logic
+    var isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    var userIcon = document.querySelector('.user-dropdown-wrap > a > i');
+    if (userIcon) {
+        if (isLoggedIn) {
+            userIcon.parentElement.classList.add('user-icon-active');
+        } else {
+            userIcon.parentElement.classList.remove('user-icon-active');
+        }
+    }
+  }
+
+  // Initial update
+  updateBadges();
+
+  // Handle Logout
+  document.addEventListener('click', function(e) {
+      if (e.target.closest('.logout-btn')) {
+          e.preventDefault();
+          localStorage.setItem('isLoggedIn', 'false');
+          alert('Logged out successfully!');
+          updateBadges();
+      }
+  });
+
+  // 3. GLOBAL ADD TO CART & WISHLIST
+  document.addEventListener('click', function(e) {
+      // Add to Cart
+      if (e.target.closest('.add-to-cart-btn')) {
+          e.preventDefault();
+          var btn = e.target.closest('.add-to-cart-btn');
+          var card = btn.closest('.product-card');
+          if (!card) return;
+
+          var titleEl = card.querySelector('.product-title');
+          var priceEl = card.querySelector('.price-current');
+          var imgEl = card.querySelector('.product-image-wrap img');
+
+          if (titleEl && priceEl && imgEl) {
+              var title = titleEl.innerText.trim();
+              var priceText = priceEl.innerText.trim().replace('$', '');
+              var price = parseFloat(priceText);
+              var imgSrc = imgEl.getAttribute('src');
+
+              var cart = getCart();
+              var existingItem = cart.find(function(item) { return item.title === title; });
+              if (existingItem) {
+                  existingItem.quantity += 1;
+              } else {
+                  cart.push({ title: title, price: price, image: imgSrc, quantity: 1 });
+              }
+              saveCart(cart);
+              updateBadges();
+              alert(title + ' added to cart!');
+          }
+      }
+
+      // Add to Wishlist
+      if (e.target.closest('.fa-heart') && !e.target.closest('.icon-badge-wrap')) {
+          e.preventDefault();
+          var btn = e.target.closest('.fa-heart');
+          var card = btn.closest('.product-card');
+          if (!card) return;
+
+          var titleEl = card.querySelector('.product-title');
+          var priceEl = card.querySelector('.price-current');
+          var imgEl = card.querySelector('.product-image-wrap img');
+
+          if (titleEl && priceEl && imgEl) {
+              var title = titleEl.innerText.trim();
+              var priceText = priceEl.innerText.trim().replace('$', '');
+              var price = parseFloat(priceText);
+              var imgSrc = imgEl.getAttribute('src');
+
+              var wishlist = getWishlist();
+              var existingIndex = wishlist.findIndex(function(item) { return item.title === title; });
+              
+              if (existingIndex > -1) {
+                  wishlist.splice(existingIndex, 1);
+                  btn.classList.remove('fa-solid');
+                  btn.classList.add('fa-regular');
+                  btn.style.color = '';
+              } else {
+                  wishlist.push({ title: title, price: price, image: imgSrc });
+                  btn.classList.remove('fa-regular');
+                  btn.classList.add('fa-solid');
+                  btn.style.color = 'var(--primary-color)';
+              }
+              saveWishlist(wishlist);
+              updateBadges();
+          }
+      }
+  });
+
+  // 4. AUTHENTICATION (Login / Signup)
+  if (page === 'signup' || page === 'login') {
+      var authForm = document.querySelector('.auth-form');
+      if (authForm) {
+          authForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              localStorage.setItem('isLoggedIn', 'true');
+              alert('Success! Redirecting to home...');
+              window.location.href = 'index.html';
+          });
+      }
+  }
+
+  // 5. DYNAMIC CART PAGE
+  if (page === 'cart') {
+      var cartContainer = document.getElementById('cart-items-container');
+      var subtotalVal = document.getElementById('cart-subtotal-val');
+      var totalVal = document.getElementById('cart-total-val');
+      
+      function renderCart() {
+          if (!cartContainer || !subtotalVal || !totalVal) return;
+          
+          var cart = getCart();
+          var html = '';
+          var subtotal = 0;
+
+          if (cart.length === 0) {
+              html = '<div style="padding: 20px; text-align: center;">Your cart is empty.</div>';
+          } else {
+              cart.forEach(function(item, index) {
+                  var itemTotal = item.price * item.quantity;
+                  subtotal += itemTotal;
+                  
+                  html += '<div class="cart-item" data-index="' + index + '">';
+                  html += '    <div class="cart-product">';
+                  html += '        <div class="product-img-wrap">';
+                  html += '            <i class="fa-solid fa-circle-xmark remove-btn" aria-hidden="true"></i>';
+                  html += '            <img src="' + item.image + '" alt="' + item.title + '">';
+                  html += '        </div>';
+                  html += '        <span>' + item.title + '</span>';
+                  html += '    </div>';
+                  html += '    <div class="cart-price">$' + item.price + '</div>';
+                  html += '    <div class="cart-quantity">';
+                  html += '        <label class="sr-only">Quantity</label>';
+                  html += '        <input type="number" class="qty-input" value="' + item.quantity + '" min="1">';
+                  html += '    </div>';
+                  html += '    <div class="cart-subtotal">$' + itemTotal + '</div>';
+                  html += '</div>';
+              });
+          }
+
+          cartContainer.innerHTML = html;
+          subtotalVal.innerText = '$' + subtotal;
+          totalVal.innerText = '$' + subtotal;
+      }
+
+      renderCart();
+
+      // Handle remove and quantity changes in cart
+      if (cartContainer) {
+          cartContainer.addEventListener('click', function(e) {
+              if (e.target.classList.contains('remove-btn')) {
+                  var itemRow = e.target.closest('.cart-item');
+                  var index = parseInt(itemRow.getAttribute('data-index'));
+                  var cart = getCart();
+                  cart.splice(index, 1);
+                  saveCart(cart);
+                  renderCart();
+                  updateBadges();
+              }
+          });
+
+          cartContainer.addEventListener('change', function(e) {
+              if (e.target.classList.contains('qty-input')) {
+                  var itemRow = e.target.closest('.cart-item');
+                  var index = parseInt(itemRow.getAttribute('data-index'));
+                  var newQty = parseInt(e.target.value);
+                  
+                  if (newQty > 0) {
+                      var cart = getCart();
+                      cart[index].quantity = newQty;
+                      saveCart(cart);
+                      renderCart();
+                      updateBadges();
+                  }
+              }
+          });
+      }
+  }
+
 })();
 
