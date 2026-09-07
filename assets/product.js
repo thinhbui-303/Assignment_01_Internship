@@ -1,7 +1,27 @@
 (function () {
   "use strict";
 
-  // 0. Thumbnail Swapping
+  // 0. Parse URL Parameters for Dynamic Product Info
+  var urlParams = new URLSearchParams(window.location.search);
+  var dynamicTitle = urlParams.get('title');
+  var dynamicPrice = urlParams.get('price');
+  var dynamicImage = urlParams.get('image');
+
+  if (dynamicTitle && dynamicPrice && dynamicImage) {
+      var nameEl = document.querySelector('.product-name');
+      var priceEl = document.querySelector('.product-price-large');
+      var mainImgEl = document.querySelector('.product-main-img img');
+      var breadcrumbSpan = document.querySelector('.breadcrumb span');
+      var firstThumb = document.querySelector('.product-thumbnails img');
+
+      if (nameEl) nameEl.innerText = dynamicTitle;
+      if (priceEl) priceEl.innerText = '$' + dynamicPrice;
+      if (mainImgEl) mainImgEl.src = '../' + dynamicImage;
+      if (breadcrumbSpan) breadcrumbSpan.innerText = dynamicTitle;
+      if (firstThumb) firstThumb.src = '../' + dynamicImage;
+  }
+
+  // 1. Thumbnail Swapping
   var thumbnails = document.querySelectorAll('.product-thumbnails img');
   var mainImage = document.querySelector('.product-main-img img');
   if (thumbnails.length > 0 && mainImage) {

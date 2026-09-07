@@ -199,7 +199,22 @@
       var clickedCard = e.target.closest('.product-card');
       if (clickedCard && !e.target.closest('.add-to-cart-btn') && !e.target.closest('.action-icons') && !e.target.closest('.remove-btn')) {
           if (!e.target.closest('a')) {
-              window.location.href = pagePath + 'product_details.html';
+              var titleEl = clickedCard.querySelector('.product-title');
+              var priceEl = clickedCard.querySelector('.price-current') || clickedCard.querySelector('.current-price');
+              var imgEl = clickedCard.querySelector('.product-image-wrap img') || clickedCard.querySelector('.product-img img');
+              
+              if (titleEl && imgEl && priceEl) {
+                  var title = encodeURIComponent(titleEl.innerText.trim());
+                  var price = encodeURIComponent(priceEl.innerText.trim());
+                  
+                  var imgSrcRaw = imgEl.getAttribute('src');
+                  var cleanImgSrc = imgSrcRaw.replace(/^(\.\.\/|\.\/)/, '');
+                  var image = encodeURIComponent(cleanImgSrc);
+                  
+                  window.location.href = pagePath + 'product_details.html?title=' + title + '&price=' + price + '&image=' + image;
+              } else {
+                  window.location.href = pagePath + 'product_details.html';
+              }
           }
       }
 
@@ -211,7 +226,7 @@
           
           // In product details page it might not be a card, so we provide fallback selectors
           var titleEl = card ? card.querySelector('.product-title') : null;
-          var priceEl = card ? card.querySelector('.price-current') : null;
+          var priceEl = card ? (card.querySelector('.price-current') || card.querySelector('.current-price')) : null;
           var imgEl = card ? card.querySelector('.product-image-wrap img') || card.querySelector('.product-img img') || card.querySelector('img') : null;
 
           if (titleEl && priceEl && imgEl) {
@@ -242,7 +257,7 @@
           if (!card) return;
 
           var titleEl = card.querySelector('.product-title');
-          var priceEl = card.querySelector('.price-current');
+          var priceEl = card.querySelector('.price-current') || card.querySelector('.current-price');
           var imgEl = card.querySelector('.product-image-wrap img') || card.querySelector('.product-img img');
 
           if (titleEl && priceEl && imgEl) {
