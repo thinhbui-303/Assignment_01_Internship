@@ -1,6 +1,18 @@
 (function () {
   "use strict";
 
+  // 0. Thumbnail Swapping
+  var thumbnails = document.querySelectorAll('.product-thumbnails img');
+  var mainImage = document.querySelector('.product-main-img img');
+  if (thumbnails.length > 0 && mainImage) {
+      thumbnails.forEach(function(thumb) {
+          thumb.style.cursor = 'pointer';
+          thumb.addEventListener('click', function() {
+              mainImage.src = this.src;
+          });
+      });
+  }
+
   // 1. Quantity Selector
   var qtyInput = document.getElementById('qty-product');
   var qtyBtns = document.querySelectorAll('.quantity-selector .qty-btn');
