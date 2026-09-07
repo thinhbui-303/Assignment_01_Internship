@@ -31,7 +31,7 @@
   gap: 30px;
 }
 
-.product-card {
+.product-card { cursor: pointer;
   width: 270px;
   display: flex;
   flex-direction: column;
@@ -169,13 +169,13 @@
   .wishlist-grid {
     flex-wrap: wrap;
   }
-  .wishlist-grid .product-card {
+  .wishlist-grid .product-card { cursor: pointer;
     min-width: calc(50% - 15px);
   }
 }
 
 @media (max-width: 480px) {
-  .wishlist-grid .product-card {
+  .wishlist-grid .product-card { cursor: pointer;
     min-width: 100%;
   }
 }

@@ -194,6 +194,15 @@
 
   // 3. GLOBAL ADD TO CART & WISHLIST
   document.addEventListener('click', function(e) {
+
+      // Navigate to product details
+      var clickedCard = e.target.closest('.product-card');
+      if (clickedCard && !e.target.closest('.add-to-cart-btn') && !e.target.closest('.action-icons') && !e.target.closest('.remove-btn')) {
+          if (!e.target.closest('a')) {
+              window.location.href = pagePath + 'product_details.html';
+          }
+      }
+
       // Add to Cart
       if (e.target.closest('.add-to-cart-btn')) {
           e.preventDefault();
